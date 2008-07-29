@@ -1,0 +1,33 @@
+= Herd
+
+Herd a pack of Rails mongrels.
+You can use it to control multiple mongrel clusters in different directories at the same time.
+herd started 
+
+== Syntax
+  herd <action> <projectname>
+  
+== Examples
+
+=== herd init
+  herd init foobar
+Create a new entry in ~/.herd.yml for the foobar project:
+  ---
+  foobar:
+    rails_dirs: []
+The next step is to edit this entry in a text editor, 
+to actually point to your rails directories:
+  ---
+  foobar:
+    rails_dirs:
+      - ~/projects/foobar/backend
+      - ~/projects/foobar/frontend
+
+=== herd <start|stop|restart>  
+  herd < start | stop | restart > <projectname>
+Send a command to the mongrel cluster of each rails directory in the project.
+
+== Author
+
+Herd was created by Wes Oldenbeuving in 2008.
+This code is licensed under the MIT license.
