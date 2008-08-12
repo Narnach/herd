@@ -3,43 +3,62 @@ require 'yaml'
 
 class Herd
   attr_reader :project
-  
-  def initialize(project)
+
+  def initialize(project=nil)
     @project = project
   end
-  
+
   def init
-    config[project] = {
-      'rails_dirs' => []
+    config[project] ||= {
+      'rails_dirs' => [],
+      'merbs' => []
     }
     File.open(config_file, 'wb') {|f| f.write(config.to_yaml)}
   end
-  
+
+  def list
+    config.each do |project_name, options|
+      puts project_name
+      puts '  rails: %i' % options['rails_dirs'].size if options['rails_dirs']
+      puts '  merbs: %i' % options['merbs'].size if options['merbs']
+    end
+  end
+
   def start
     check_rails_dirs
     all_mongrels 'start'
+    all_merbs 'start'
   end
-  
+
   def stop
     all_mongrels 'stop'
+    all_merbs 'stop'
   end
-  
+
   def restart
     all_mongrels 'restart'
+    all_merbs 'stop'
+    all_merbs 'start'
   end
-  
+
   private
-  
+
+  def all_merbs(action)
+    merbs.each do |merb_options|
+      merb(merb_options, action)
+    end
+  end
+
   def all_mongrels(cmd)
     rails_dirs.each do |dir|
       mongrel(dir, cmd)
     end
   end
-  
+
   def check_rails_dirs
     raise "No rails directories defined for this project" if rails_dirs.size == 0
   end
-  
+
   def config
     @config ||= YAML.load_file(config_file)
   rescue SystemCallError => e
@@ -51,17 +70,41 @@ class Herd
   end
 
   def mongrel(dir, cmd)
-    sh ('cd %s' % dir), ('mongrel_rails cluster::%s %s' % [cmd, mongrel_options.join(' ')])
+    sh(('cd %s' % dir), ('mongrel_rails cluster::%s %s' % [cmd, mongrel_options.join(' ')]))
   end
-  
+
+  def merb(options, action)
+    if action == 'start'
+      merb_options = '-d'
+      options.each do |key, value|
+        case key
+        when 'port'
+          merb_options << ' -p %s' % value
+        when 'env'
+          merb_options << ' -e %s' % value
+        end
+      end
+    else
+      merb_options = '-k all'
+    end
+    sh(
+      'cd %s' % options['dir'],
+      'merb %s' % merb_options
+    )
+  end
+
+  def merbs
+    @merbs ||= (project_config['merbs'] || [])
+  end
+
   def mongrel_options
-      @mongrel_options ||= (project_config['mongrel_options'] || [])
+    @mongrel_options ||= (project_config['mongrel_options'] || [])
   end
-  
+
   def project_config
     @project_config ||= (config[project] || {})
   end
-  
+
   def rails_dirs
     @rails_dirs ||= (project_config['rails_dirs'] || [])
   end
@@ -79,21 +122,31 @@ Herd - Herd a pack of Rails mongrels
 
 Syntax
   herd <action> <projectname>
-  
+
 Examples
+  herd list
+    List a short summary of all existing projects.
   herd init foobar
     Create a new entry in ~/.herd.yml for the foobar project:
       ---
       foobar:
         rails_dirs: []
-    The next step is to edit this entry in a text editor, 
+        merbs: []
+    The next step is to edit this entry in a text editor,
     to actually point to your rails directories:
       ---
       foobar:
         rails_dirs:
           - ~/projects/foobar/backend
           - ~/projects/foobar/frontend
-  
+        merbs:
+        - env: development
+          port: 4000
+          dir: ~/projects/foobar/uploads
+        - env: development
+          port: 4100
+          dir: ~/projects/foobar/downloads
+
   herd <start | stop | restart> <projectname>
     Send a command to the mongrel cluster of each rails directory in the project.
   EOS
@@ -101,6 +154,5 @@ Examples
 end
 
 project = ARGV.shift
-raise(ArgumentError, "You must provide a project name") if project.nil?
 h = Herd.new project
 h.send(cmd)
