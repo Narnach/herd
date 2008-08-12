@@ -9,10 +9,9 @@ class Herd
   end
 
   def init
-    config[project] ||= {
-      'rails_dirs' => [],
-      'merbs' => []
-    }
+    proj = config[project] ||= {}
+    proj['rails_dirs'] ||= []
+    proj['merbs'] ||= []
     File.open(config_file, 'wb') {|f| f.write(config.to_yaml)}
   end
 
