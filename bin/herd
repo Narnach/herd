@@ -19,8 +19,14 @@ class Herd
   def list
     config.each do |project_name, options|
       puts project_name
-      puts '  rails: %i' % options['rails_dirs'].size if options['rails_dirs']
-      puts '  merbs: %i' % options['merbs'].size if options['merbs']
+      for type in %w[rails_dirs merbs]
+        if options[type]
+          puts '  %s: %i' % [type,options[type].size]
+          for project_dir in options[type]
+            puts '    - %s' % project_dir
+          end
+        end
+      end
       puts '  mongrel_options: %s' % options['mongrel_options'].join(' ') if options['mongrel_options'].size > 0
     end
   end
