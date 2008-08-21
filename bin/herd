@@ -32,17 +32,20 @@ class Herd
   end
 
   def start
+    check_project
     check_rails_dirs
     all_mongrels 'start'
     all_merbs 'start'
   end
 
   def stop
+    check_project
     all_mongrels 'stop'
     all_merbs 'stop'
   end
 
   def restart
+    check_project
     all_mongrels 'restart'
     all_merbs 'stop'
     all_merbs 'start'
@@ -60,6 +63,13 @@ class Herd
     rails_dirs.each do |dir|
       mongrel(dir, cmd)
     end
+  end
+
+  def check_project
+    return unless project_config == {}
+    puts "No project specified for '%s'. To initialize this project, run:" % project
+    puts "  herd init %s" % project
+    exit
   end
 
   def check_rails_dirs
