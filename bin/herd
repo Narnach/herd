@@ -145,6 +145,8 @@ Examples
         - env: development
           port: 4100
           dir: ~/projects/foobar/downloads
+        mongrel_options:
+        - --clean
 
   herd <start | stop | restart> <projectname>
     Send a command to the mongrel cluster of each rails directory in the project.
