@@ -27,7 +27,9 @@ class Herd
           end
         end
       end
-      puts '  mongrel_options: %s' % options['mongrel_options'].join(' ') if options['mongrel_options'].size > 0
+      if options['mongrel_options'].kind_of?(Array) and options['mongrel_options'].size > 0
+        puts '  mongrel_options: %s' % options['mongrel_options'].join(' ')
+      end
     end
   end
 
