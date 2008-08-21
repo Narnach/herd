@@ -50,7 +50,10 @@ List a short summary of all existing projects:
       - ~/projects/foobar/fileserver
     mongrel_options: --clean
 
-== Author
+== About
 
-Herd was created by Wes Oldenbeuving in 2008.
-This code is licensed under the MIT license.
+Author:: Wes 'Narnach' Oldenbeuving (http://github.com/Narnach)
+Contributors:: Filip 'Fixato' Slagter (http://github.com/FiXato)
+Website:: http://github.com/Narnach/herd
+Copyright:: Copyright (c) 2008 Wes Oldenbeuving
+License:: MIT license. See MIT-LICENSE for license details.
