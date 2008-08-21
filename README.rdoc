@@ -5,7 +5,7 @@ You can use it to control multiple mongrel clusters in different directories at 
 herd started 
 
 == Syntax
-  herd <action> <projectname>
+  herd action projectname
   
 == Examples
 
@@ -29,9 +29,9 @@ to define your rails and/or merb directories and mongrel options:
       - ~/projects/foobar/frontend
 
 === herd start | stop | restart
-  herd start   <projectname>
-  herd stop    <projectname>
-  herd restart <projectname>
+  herd start   projectname
+  herd stop    projectname
+  herd restart projectname
 Send a command to the mongrel cluster of each rails directory in the project.
 
 === herd list
