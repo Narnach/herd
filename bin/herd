@@ -12,6 +12,7 @@ class Herd
     proj = config[project] ||= {}
     proj['rails_dirs'] ||= []
     proj['merbs'] ||= []
+    proj['mongrel_options'] ||= []
     File.open(config_file, 'wb') {|f| f.write(config.to_yaml)}
   end
 
@@ -131,6 +132,7 @@ Examples
       foobar:
         rails_dirs: []
         merbs: []
+        mongrel_options: []
     The next step is to edit this entry in a text editor,
     to actually point to your rails directories:
       ---
