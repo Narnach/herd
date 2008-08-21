@@ -14,11 +14,16 @@ herd started
 Create a new entry in ~/.herd.yml for the foobar project:
   ---
   foobar:
+    merbs: []
+    mongrel_options: []
     rails_dirs: []
-The next step is to edit this entry in a text editor, 
-to actually point to your rails directories:
+The next step is to edit this entry in a text editor,
+to define your rails and/or merb directories and mongrel options:
   ---
   foobar:
+    merbs:
+      - ~/projects/foobar/fileserver
+    mongrel_options: --clean
     rails_dirs:
       - ~/projects/foobar/backend
       - ~/projects/foobar/frontend
@@ -28,6 +33,17 @@ to actually point to your rails directories:
   herd stop    <projectname>
   herd restart <projectname>
 Send a command to the mongrel cluster of each rails directory in the project.
+
+=== herd list
+  herd list
+List a short summary of all existing projects:
+  foobar
+    rails_dirs: 2
+      - ~/projects/foobar/backend
+      - ~/projects/foobar/frontend
+    merbs: 1
+      - ~/projects/foobar/fileserver
+    mongrel_options: --clean
 
 == Author
 
