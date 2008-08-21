@@ -2,12 +2,17 @@
 
 Herd a pack of Rails mongrels.
 You can use it to control multiple mongrel clusters in different directories at the same time.
-herd started 
+Herd started as a project to manage the different projects on my development machine, so that
+is how it has been used and tested.
 
 == Syntax
   herd action projectname
-  
+
 == Examples
+
+=== herd help
+  herd help
+Show all herd options. It looks a lot like this readme.
 
 === herd init
   herd init foobar
