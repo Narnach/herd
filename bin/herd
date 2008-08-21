@@ -21,6 +21,7 @@ class Herd
       puts project_name
       puts '  rails: %i' % options['rails_dirs'].size if options['rails_dirs']
       puts '  merbs: %i' % options['merbs'].size if options['merbs']
+      puts '  mongrel_options: %s' % options['mongrel_options'].join(' ') if options['mongrel_options'].size > 0
     end
   end
 
