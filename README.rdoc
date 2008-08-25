@@ -34,10 +34,12 @@ to define your rails and/or merb directories and mongrel options:
       - ~/projects/foobar/frontend
 
 === herd start | stop | restart
-  herd start   projectname
-  herd stop    projectname
-  herd restart projectname
+  herd start   projectname [extra mongrel options]
+  herd stop    projectname [extra mongrel options]
+  herd restart projectname [extra mongrel options]
 Send a command to the mongrel cluster of each rails directory in the project.
+You can optionally specify extra mongrel options that need to be added to
+the configured mongrel options for this call only.
 
 === herd list
   herd list

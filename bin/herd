@@ -2,10 +2,11 @@
 require 'yaml'
 
 class Herd
-  attr_reader :project
+  attr_reader :project, :extra_mongrel_options
 
-  def initialize(project=nil)
+  def initialize(project=nil,extra_mongrel_options=nil)
     @project = project
+    @extra_mongrel_options = extra_mongrel_options
   end
 
   def init
@@ -89,7 +90,8 @@ class Herd
   end
 
   def mongrel(dir, cmd)
-    sh(('cd %s' % dir), ('mongrel_rails cluster::%s %s' % [cmd, mongrel_options.join(' ')]))
+    merged_mongrel_options = (mongrel_options + extra_mongrel_options).uniq
+    sh(('cd %s' % dir), ('mongrel_rails cluster::%s %s' % [cmd, merged_mongrel_options.join(' ')]))
   end
 
   def merb(options, action)
@@ -169,12 +171,13 @@ Examples
         mongrel_options:
         - --clean
 
-  herd <start | stop | restart> <projectname>
+  herd <start | stop | restart> <projectname> [extra mongrel options]
     Send a command to the mongrel cluster of each rails directory in the project.
   EOS
   exit
 end
 
 project = ARGV.shift
-h = Herd.new project
+extra_mongrel_options = ARGV
+h = Herd.new(project,extra_mongrel_options)
 h.send(cmd)
