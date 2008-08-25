@@ -53,7 +53,6 @@ List a short summary of all existing projects:
     mongrel_options: --clean
 
 == Ideas
-Turn herd into a gem
 Refactor code into multiple smaller classes with their own responsibilities. A first rough divide:
 * Herd (for top-level coordination and managing multiple projects)
 * Project (represent one project)
