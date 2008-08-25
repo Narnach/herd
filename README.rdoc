@@ -52,6 +52,14 @@ List a short summary of all existing projects:
       - ~/projects/foobar/fileserver
     mongrel_options: --clean
 
+== Ideas
+Turn herd into a gem
+Refactor code into multiple smaller classes with their own responsibilities. A first rough divide:
+* Herd (for top-level coordination and managing multiple projects)
+* Project (represent one project)
+* MongrelGroup (represent a number of mongrels and their configuration)
+* MerbGroup (represent a number of merbs and their configuration)
+
 == About
 
 Author:: Wes 'Narnach' Oldenbeuving (http://github.com/Narnach)
