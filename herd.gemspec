@@ -14,16 +14,17 @@ Gem::Specification.new do |s|
   s.bindir       = "bin"
   s.executables  = %w[herd]
   s.require_path = "lib"
-  bin_files = %w[herd].map {|f| 'bin/%s' % f}
-  lib_files = %w[herd].map {|f| 'lib/%s.rb' % f}
-  test_files = %w[].map {|f| 'test/%s' % f}
-  spec_files = %w[].map {|f| 'spec/%s' % f}
-  s.files        = %w[MIT-LICENSE README.rdoc Rakefile herd.gemspec] + bin_files + lib_files + test_files + spec_files
-  s.test_files   = test_files + spec_files
+  root_files     = %w[MIT-LICENSE README.rdoc Rakefile herd.gemspec]
+  bin_files      = %w[herd]
+  lib_files      = %w[herd]
+  test_files     = %w[]
+  spec_files     = %w[]
+  s.test_files   = test_files.map {|f| 'test/%s' % f} + spec_files.map {|f| 'spec/%s' % f}
+  s.files        = root_files + s.test_files + bin_files.map {|f| 'bin/%s' % f} + lib_files.map {|f| 'lib/%s.rb' % f}
 
   # rdoc
   s.has_rdoc         = true
-  s.extra_rdoc_files = %w[ README.rdoc MIT-LICENSE]
+  s.extra_rdoc_files = %w[README.rdoc MIT-LICENSE]
   s.rdoc_options << '--inline-source' << '--line-numbers' << '--main' << 'README.rdoc'
 
   # Requirements
